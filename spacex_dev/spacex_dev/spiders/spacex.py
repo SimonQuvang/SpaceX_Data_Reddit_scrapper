@@ -2,6 +2,7 @@ import scrapy
 from spacex_dev.items import SpacexDevItem
 from scrapy.loader import ItemLoader
 
+
 class SpacexSpider(scrapy.Spider):
     name = 'spacex'
     allowed_domains = ['reddit.com/r/spacex']

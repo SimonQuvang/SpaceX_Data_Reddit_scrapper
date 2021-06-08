@@ -4,17 +4,17 @@ from scrapy.loader import ItemLoader
 
 class SpacexSpider(scrapy.Spider):
     name = 'spacex'
-    allowed_domains = ['https://www.spacex.com/careers/']
+    allowed_domains = ['https://www.spacex.com']
     start_urls = ["https://www.spacex.com/careers/?department="]
 
     def parse(self, response):
-        for table in response.css('table.jobs'):
+        for table in response.css('table.jobs'):scrapy
             if table.css('thead strong::text'):
                 pass
-            l = ItemLoader(item=SpacexDevItem(), selector=table)
+            l = ItemLoader(item=SpaceXJobItem(), selector=table)
             l.add_css('name', 'thead strong')
             trs = table.css('tbody tr')
-            for tr in trs:
+            for tr in trs:cd
                 l.selector = tr
                 l.add_css('date', 'td')
                 l.add_css('comment', 'td a')
