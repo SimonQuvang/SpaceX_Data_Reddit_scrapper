@@ -8,6 +8,12 @@ submission_ids = ['c61lqs', 'ci70t4', 'cxyt8x', 'dfd8ik', 'e11zs0', 'ellkmn', 'f
 session = HTMLSession()
 
 
+def get_souce_of_update(temp_obj, links):
+    for link in links:
+        source_obj = {'link': link['href'], 'text': link.text}
+        temp_obj['source'].append(source_obj)
+
+
 def fetch(id):
     url = f'https://www.reddit.com/r/spacex/comments/{id}'
     request = session.get(url)
@@ -20,16 +26,19 @@ def fetch(id):
 
         table_body = table.select('tbody tr')
         for row in table_body:
+            # defining the temp_obj here to make sure it gets cleaned up for every new row
             temp_obj = {
                 "date": "",
                 "source": []
             }
+            # Getting the date of the update
             date = row.select('td:nth-child(1)')
             temp_obj["date"] = date[0].text
+
+            # Getting the source of the update, including the link and text
             links = row.select('td a', href=True)
-            for link in links:
-                source_obj = {'link': link['href'], 'text': link.text}
-                temp_obj['source'].append(source_obj)
+            get_souce_of_update(temp_obj, links)
+
             print(temp_obj)
 
 
